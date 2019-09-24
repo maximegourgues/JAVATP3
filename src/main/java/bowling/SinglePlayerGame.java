@@ -1,5 +1,5 @@
 package bowling;
-import bowling.TypeLancer.java;
+
 
 /**
  * Cette classe a pour but d'enregistrer le nombre de quilles abattues lors des
@@ -7,23 +7,23 @@ import bowling.TypeLancer.java;
  * final de ce joueur
  */
 public class SinglePlayerGame {
-       private TypeLancer typeLancer;
-             
+       private static int QUILLES_DEP = 10;
        private int tours ;
        private int score;
        private int nbQuilles;
-       private boolean deuxiemeBoules;
+       private int nbLancer;
+       private int bonus;
 
 
 	/**
 	 * Constructeur
 	 */
 	public SinglePlayerGame() {
-            this.tours = 10;
+            this.tours = 0;
             this.score = 0;
-            this.nbQuilles =10;
-            this.typeLancer  = TypeLancer.MANY;
-            this.deuxiemeBoules = false;
+            this.nbQuilles = QUILLES_DEP;
+            this.nbLancer = 0;
+            this.bonus = 0;
             
                         
 	}
@@ -35,22 +35,23 @@ public class SinglePlayerGame {
 	 * ce lancé
 	 */
 	public void lancer(int nombreDeQuillesAbattues) {
-                                                    
-            this.score = nombreDeQuillesAbattues;
-            if (this.typeLancer==TypeLancer.STRIKE || this.typeLancer==TypeLancer.SPARE) {
-                score+=nombreDeQuillesAbattues;               
-            }    
             
-            if (this.nbQuilles==nombreDeQuillesAbattues) {
-                if (this.deuxiemeBoules==true)
-                    this.typeLancer=TypeLancer.STRIKE;
-                else
-                    this.typeLancer=TypeLancer.SPARE;
-                
-                
+            this.initQuilles();
+                                                    
+            this.score += nombreDeQuillesAbattues;
+            if (this.bonus>0) {
+                this.score += nombreDeQuillesAbattues;
+                this.bonus--;
             }
-            else
-                this.typeLancer=TypeLancer.MANY;
+            this.nbQuilles-= nombreDeQuillesAbattues;
+                
+            if (this.nbQuilles==0) {
+                this.bonus++;
+                if (nombreDeQuillesAbattues == QUILLES_DEP){
+                    this.bonus++;
+                }
+            }
+            this.nbLancer++;
         }
 
 	/**
@@ -61,4 +62,12 @@ public class SinglePlayerGame {
 	public int score() {
 		return this.score ;
 	}
+        public void initQuilles(){
+            if (this.nbLancer == 2 || this.nbQuilles == 0 ){
+                this.nbQuilles = QUILLES_DEP;
+                this.nbLancer = 0;
+                this.tours++;
+            }
+                    
+        }
 }
