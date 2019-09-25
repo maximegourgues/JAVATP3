@@ -7,10 +7,9 @@ package bowling;
  * final de ce joueur
  */
 public class SinglePlayerGame {
-       private static int QUILLES_DEP = 10;
+       private SingleBoardGame board;
        private int tours ;
        private int score;
-       private int nbQuilles;
        private int nbLancer;
        private int bonus;
 
@@ -19,9 +18,9 @@ public class SinglePlayerGame {
 	 * Constructeur
 	 */
 	public SinglePlayerGame() {
+            this.board = new SingleBoardGame();
             this.tours = 0;
             this.score = 0;
-            this.nbQuilles = QUILLES_DEP;
             this.nbLancer = 0;
             this.bonus = 0;            
                         
@@ -38,19 +37,24 @@ public class SinglePlayerGame {
             this.initBoard();
                                                     
             this.score += nombreDeQuillesAbattues;
-            if (this.bonus>0 && this.tours < 10) {
-                this.score += nombreDeQuillesAbattues;
-                this.bonus--;
-            }
-            this.nbQuilles-= nombreDeQuillesAbattues;
+            
+            if (this.bonus>0 && this.tours <= 10) {
+                if (this.bonus >=4){
+                    this.scoreBonus(nombreDeQuillesAbattues);                                  
+                } 
+                this.scoreBonus(nombreDeQuillesAbattues);                             
                 
-            if (this.nbQuilles==0) {
+            }
+            this.board.setNbQuillesRest(this.board.getNbQuillesRest()- nombreDeQuillesAbattues);
+                
+            if (this.board.getNbQuillesRest()==0) {
                 this.bonus++;
-                if (nombreDeQuillesAbattues == QUILLES_DEP){
+                if (nombreDeQuillesAbattues == SingleBoardGame.QUILLES_DEP){
                     this.bonus++;
                 }
             }
             this.nbLancer++;
+            System.out.println(this.score);
         }
 
 	/**
@@ -62,11 +66,16 @@ public class SinglePlayerGame {
 		return this.score ;
 	}
         public void initBoard(){
-            if (this.nbLancer == 2 || this.nbQuilles == 0 ){
-                this.nbQuilles = QUILLES_DEP;
+            if (this.nbLancer == 2 || this.board.getNbQuillesRest() == 0 ){
+                this.board.setNbQuillesRest(this.board.QUILLES_DEP);
                 this.nbLancer = 0;
                 this.tours++;
             }
+        
+        }
+        public void scoreBonus(int ptBonus){
+            this.score+=ptBonus;
+            this.bonus--;
                     
         }
 }
