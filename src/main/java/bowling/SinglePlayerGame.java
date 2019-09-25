@@ -23,8 +23,7 @@ public class SinglePlayerGame {
             this.score = 0;
             this.nbQuilles = QUILLES_DEP;
             this.nbLancer = 0;
-            this.bonus = 0;
-            
+            this.bonus = 0;            
                         
 	}
 
@@ -36,10 +35,10 @@ public class SinglePlayerGame {
 	 */
 	public void lancer(int nombreDeQuillesAbattues) {
             
-            this.initQuilles();
+            this.initBoard();
                                                     
             this.score += nombreDeQuillesAbattues;
-            if (this.bonus>0) {
+            if (this.bonus>0 && this.tours < 10) {
                 this.score += nombreDeQuillesAbattues;
                 this.bonus--;
             }
@@ -62,7 +61,7 @@ public class SinglePlayerGame {
 	public int score() {
 		return this.score ;
 	}
-        public void initQuilles(){
+        public void initBoard(){
             if (this.nbLancer == 2 || this.nbQuilles == 0 ){
                 this.nbQuilles = QUILLES_DEP;
                 this.nbLancer = 0;
