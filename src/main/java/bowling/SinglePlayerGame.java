@@ -8,10 +8,10 @@ package bowling;
  */
 public class SinglePlayerGame {
        private SingleBoardGame board;
-       private int tours ;
        private int score;
        private int nbLancer;
-       private int bonus;
+       private int tours;
+       
 
 
 	/**
@@ -19,10 +19,11 @@ public class SinglePlayerGame {
 	 */
 	public SinglePlayerGame() {
             this.board = new SingleBoardGame();
-            this.tours = 0;
+            this.tours=0;
+            
             this.score = 0;
             this.nbLancer = 0;
-            this.bonus = 0;            
+                    
                         
 	}
 
@@ -38,19 +39,32 @@ public class SinglePlayerGame {
                                                     
             this.score += nombreDeQuillesAbattues;
             
-            if (this.bonus>0 && this.tours <= 10) {
-                if (this.bonus >=4){
+            if (this.board.getBonus()>0 && this.tours < SingleBoardGame.DERNIER_TOUR){
+                this.scoreBonus(nombreDeQuillesAbattues);
+                
+                if (this.board.getBonus() > 2 ){
+                    this.scoreBonus(nombreDeQuillesAbattues);
+                }
+            }
+            if (this.board.getBonus() > 2 && this.tours == SingleBoardGame.DERNIER_TOUR){
+                this.scoreBonus(2*nombreDeQuillesAbattues);
+            }
+            
+            /*if (this.board.getBonus()>0 && this.tours <= SingleBoardGame.DERNIER_TOUR) {
+                if (this.board.getBonus() >=4){
                     this.scoreBonus(nombreDeQuillesAbattues);                                  
                 } 
                 this.scoreBonus(nombreDeQuillesAbattues);                             
                 
-            }
-            this.board.setNbQuillesRest(this.board.getNbQuillesRest()- nombreDeQuillesAbattues);
+            }*/
+            this.board.decrementNbQuilles(nombreDeQuillesAbattues);
                 
             if (this.board.getNbQuillesRest()==0) {
-                this.bonus++;
                 if (nombreDeQuillesAbattues == SingleBoardGame.QUILLES_DEP){
-                    this.bonus++;
+                    this.board.strikeBonus();
+                }
+                else{
+                    this.board.spareBonus();
                 }
             }
             this.nbLancer++;
@@ -67,7 +81,7 @@ public class SinglePlayerGame {
 	}
         public void initBoard(){
             if (this.nbLancer == 2 || this.board.getNbQuillesRest() == 0 ){
-                this.board.setNbQuillesRest(this.board.QUILLES_DEP);
+                this.board.initQuilles();
                 this.nbLancer = 0;
                 this.tours++;
             }
@@ -75,7 +89,7 @@ public class SinglePlayerGame {
         }
         public void scoreBonus(int ptBonus){
             this.score+=ptBonus;
-            this.bonus--;
+            this.board.useBonus();
                     
         }
 }
