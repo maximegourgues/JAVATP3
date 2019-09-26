@@ -71,7 +71,7 @@ public class SinglePlayerGame {
                 }
             }
             this.nbLancer++;
-            System.out.println(this.score+ " et bonus :" + this.board.getBonus());
+
         }
 
 	/**
