@@ -39,16 +39,19 @@ public class SinglePlayerGame {
                                                     
             this.score += nombreDeQuillesAbattues;
             
-            if (this.board.getBonus()>0 && this.tours < SingleBoardGame.DERNIER_TOUR){
-                this.scoreBonus(nombreDeQuillesAbattues);
+            if (this.board.getBonus()> 0 && this.tours < SingleBoardGame.DERNIER_TOUR){
+                    this.scoreBonus(nombreDeQuillesAbattues);
                 
-                if (this.board.getBonus() > 2 ){
+                if (this.board.getBonus() > 1 ){
                     this.scoreBonus(nombreDeQuillesAbattues);
                 }
             }
-            if (this.board.getBonus() > 2 && this.tours == SingleBoardGame.DERNIER_TOUR){
-                this.scoreBonus(2*nombreDeQuillesAbattues);
+            if (this.board.getBonus()>2 && this.tours == SingleBoardGame.DERNIER_TOUR){
+                this.scoreBonus(nombreDeQuillesAbattues);
             }
+ 
+            
+            
             
             /*if (this.board.getBonus()>0 && this.tours <= SingleBoardGame.DERNIER_TOUR) {
                 if (this.board.getBonus() >=4){
@@ -68,7 +71,7 @@ public class SinglePlayerGame {
                 }
             }
             this.nbLancer++;
-            System.out.println(this.score);
+            System.out.println(this.score+ " et bonus :" + this.board.getBonus());
         }
 
 	/**
